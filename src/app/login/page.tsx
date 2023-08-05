@@ -5,11 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 import styles from "../../styles/Form.module.css";
 
 const LoginPage = () => {
   const [show, setShow] = useState<boolean>(false);
+
+  async function handleGoogleSignIn() {
+    signIn("google", { callbackUrl: "http://localhost:3000" });
+  }
   return (
     <div>
       <Head>
@@ -56,7 +61,11 @@ const LoginPage = () => {
             </button>
           </div>
           <div className="input-button">
-            <button className={styles.button_custom} type="button">
+            <button
+              onClick={handleGoogleSignIn}
+              className={styles.button_custom}
+              type="button"
+            >
               Sign In with Google{" "}
               <Image
                 src={"/assets/google.svg"}
@@ -91,3 +100,6 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+function handleGoogleSignIn() {
+  throw new Error("Function not implemented.");
+}

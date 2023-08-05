@@ -1,7 +1,9 @@
-import "./globals.css";
+"use client";
 import type { Metadata } from "next";
+import { SessionProvider, getSession } from "next-auth/react";
 import { Inter } from "next/font/google";
 import styles from "../styles/Layout.module.css";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,24 +14,28 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  pageProps,
 }: {
   children: React.ReactNode;
+  pageProps: any;
 }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-screen bg-blue-400">
-          <div className="m-auto bg-slate-50 rounded-md w-3/5 h-3/4 grid lg:grid-cols-2">
-            <div className={styles.imgStyle}>
-              <div className={styles.cartoonImg}></div>
-              <div className={styles.cloud_one}></div>
-              <div className={styles.cloud_two}></div>
-            </div>
-            <div className="right flex flex-col justify-evenly">
-              <div className="text-center py-10">{children}</div>
+        <SessionProvider session={pageProps?.session}>
+          <div className="flex h-screen bg-blue-400">
+            <div className="m-auto bg-slate-50 rounded-md w-3/5 h-3/4 grid lg:grid-cols-2">
+              <div className={styles.imgStyle}>
+                <div className={styles.cartoonImg}></div>
+                <div className={styles.cloud_one}></div>
+                <div className={styles.cloud_two}></div>
+              </div>
+              <div className="right flex flex-col justify-evenly">
+                <div className="text-center py-10">{children}</div>
+              </div>
             </div>
           </div>
-        </div>
+        </SessionProvider>
       </body>
     </html>
   );
